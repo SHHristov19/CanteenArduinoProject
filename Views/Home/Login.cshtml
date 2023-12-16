@@ -1,0 +1,20 @@
+﻿@model CanteenArduinoProject.Data.User
+
+@{
+    ViewData["Title"] = "Login page";
+}
+
+<h1>Вход в системата</h1>
+
+@using (Html.BeginForm("Login", "Home", FormMethod.Post))
+{  
+    @Html.LabelFor(model => model.Username,"Потребителско име", new { @class = "form-label"})
+    @Html.TextBoxFor(model => model.Username, new { @class = "form-control col-6"})
+    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger"})
+    <br />
+    @Html.LabelFor(model => model.FirstName,"Парола", new { @class = "form-label"})
+    @Html.PasswordFor(model => model.Password, new { @class = "form-control"})
+    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger"})
+    <br />
+    <button type="submit" class="btn btn-primary">Вход</button>
+}

@@ -1,5 +1,3 @@
-using CanteenArduinoProject.Data;  
-
 namespace CanteenArduinoProject
 {
     public class Program
@@ -12,6 +10,7 @@ namespace CanteenArduinoProject
             builder.Services.AddControllersWithViews();
 
             //builder.Services.AddDefaultIdentity<User>().AddEntityFrameworkStores<CanteenContext>();
+            //builder.Services.AddSingleton<IHostedService, TcpListenerService>();
 
             var app = builder.Build();
 
