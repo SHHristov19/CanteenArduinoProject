@@ -19,14 +19,14 @@ namespace CanteenArduinoProject.ConnectionService
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<User> GetUserByIdAsync(string id)
+        public async Task<User?> GetUserByIdAsync(string id)
         {
             return await _context.Users
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
         }
          
-        public async Task<User> GetUserByUsernameAndPassAsync(string username, string password)
+        public async Task<User?> GetUserByUsernameAndPassAsync(string username, string password)
         {
             return await _context.Users
                 .Where(x => x.Username == username && x.Password == password)
@@ -59,6 +59,53 @@ namespace CanteenArduinoProject.ConnectionService
             }
 
             return null;
+        }
+
+        public async Task<string> GetUID()
+        {
+            var stopwatch = Stopwatch.StartNew();
+
+            DateTime startTime = DateTime.Now;
+            DateTime endTime = startTime + TimeSpan.FromSeconds(10);
+
+            while (stopwatch.ElapsedMilliseconds < 10000)
+            {
+
+                var readedId = await _context.Readers
+                    .Where(entry => entry.Time >= startTime && entry.Time <= endTime)
+                    .Select(x => x.Uid)
+                    .FirstOrDefaultAsync();
+
+                if (readedId != null)
+                {
+                    return readedId;
+                }
+            }
+
+            return null;
+        }
+
+        public bool Exsist(string id)
+        {
+            return _context.Users.Any(u => u.Id == id);
+        }
+
+        public void CreateUser(User user)
+        {
+            _context.Users.Add(user);
+            _context.SaveChanges();
+        }
+
+        public Menu? GetMenuOfUID(string uid)
+        {
+             string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+
+            return _context.Usermenus
+                .Join(_context.Menus, um => um.MenuId, m => m.MenuId, (um, m) => new { um, m })
+                .Where(joined => joined.um.UserId == uid && joined.um.Date.ToString() == currentDate)
+                .Select(joined => joined.m)
+                .FirstOrDefault();
+
         }
     }
 }

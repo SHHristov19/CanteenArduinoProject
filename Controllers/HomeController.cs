@@ -17,7 +17,7 @@ namespace CanteenArduinoProject.Controllers
             _dataService = new DataService();
         }
 
-        public IActionResult Index(User user = null)
+        public IActionResult Index(User user)
         {
             return View(user);
         }
@@ -29,21 +29,30 @@ namespace CanteenArduinoProject.Controllers
           
         public async Task<IActionResult> Checking()
         {
-            //IEnumerable<User> users = await _dataService.GetAllUsersAsync();
-            //User findUser = await _dataService.GetUserByIdAsync("bd31152b");
-            //string rfid = await _dataService.AsyncUID("bd31152b");
-            //if (!string.IsNullOrEmpty(rfid))
-            //{
-            //    ViewData["ReceivedData"] = rfid;
-            //}
-            //else
-            //{
-            //    ViewData["ReceivedData"] = "Not Found";
-            //}
+            User user = await _dataService.AsyncUID();
              
-            User findUser = await _dataService.AsyncUID();
-            
-            return View();
+            if (user != null)
+            { 
+                return RedirectToAction("ChoosenMenu", new { uid = user.Id });
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        public async Task<IActionResult> CheckingOnCreation(User user)
+        {  
+            user.Id = await _dataService.GetUID();
+            if (!_dataService.Exsist(user.Id) && user.Id != null)
+            {
+                _dataService.CreateUser(user);
+                return RedirectToAction("Index", user);
+            }
+            else
+            {
+                return RedirectToAction("SignUp");
+            }
         }
 
         public IActionResult Login()
@@ -56,17 +65,56 @@ namespace CanteenArduinoProject.Controllers
             return View();
         }
 
+        public IActionResult Waiting()
+        {
+            return View();
+        }
+
+        public IActionResult WaitingCreating(User user)
+        {
+            return View(user);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(User user)
         {
             User findUser = await _dataService.GetUserByUsernameAndPassAsync(user.Username, user.Password);
-            return RedirectToAction("Index", findUser);
+            if (findUser != null)
+            {
+                return RedirectToAction("Index", findUser);
+            }
+            else
+            {
+                return View(user);
+            }
         }
 
         [HttpPost]
-        public IActionResult SignUp(User user)
+        public IActionResult SignUp(string FirstName, string LastName, string Username, string Password)
+        {
+            User user = new User {
+                FirstName = FirstName, LastName= LastName, Username = Username,Password = Password
+            };
+             
+            return RedirectToAction("WaitingCreating", user);
+        }
+
+        public IActionResult Menu(int day)
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult ChooseDay(int day)
+        {
+            return RedirectToAction("Menu", day);
+        }
+
+        public IActionResult ChoosenMenu(string uid)
+        {
+            Menu? menu = _dataService.GetMenuOfUID(uid);
+
+            return View(menu);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,0 +1,19 @@
+﻿@model CanteenArduinoProject.Data.User
+
+<br />
+<h1 class="text-center display-2 mt-5">Сканиране......</h1>
+<br />
+<h2 class="text-center display-6">Моля поставете картата върху четеца!</h2>
+ 
+<script>
+    // Wait for 3 seconds (3000 milliseconds) and then redirect to the Checking action
+    setTimeout(function () {
+        var redirectUrl = '/Home/CheckingOnCreation?';
+        redirectUrl += 'Username=' + '@Model.Username';
+        redirectUrl += '&Password=' + '@Model.Password';
+        redirectUrl += '&FirstName=' + '@Model.FirstName';
+        redirectUrl += '&LastName=' + '@Model.LastName';
+
+        window.location.href = redirectUrl;
+    }, 2000);
+</script>

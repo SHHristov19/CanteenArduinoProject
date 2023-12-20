@@ -1,0 +1,70 @@
+﻿
+@model List<CanteenArduinoProject.Data.Menu>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Меню 1</h5>
+             </div>
+                <div class="card-header">
+                    Предястие
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">@Model[0].Appetizer</li>
+                </ul>
+                <br />
+                <div class="card-header">
+                    Основно
+                </div>
+                <ul class="list-group list-group-flush">
+                <li class="list-group-item">@Model[0].Main</li>
+                </ul>
+                <br />
+                <div class="card-header">
+                    Десерт
+                </div>
+                <ul class="list-group list-group-flush">
+                <li class="list-group-item">@Model[0].Dessert</li>
+                </ul>
+                <div class="card-body">
+                <a href="#" class="btn btn-primary">Избери</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Меню 2</h5>
+            </div>
+            <div class="card-header">
+                Предястие
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">@Model[1].Appetizer</li>
+            </ul>
+            <br />
+            <div class="card-header">
+                Основно
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">@Model[1].Main</li>
+            </ul>
+            <br />
+            <div class="card-header">
+                Десерт
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">@Model[1].Dessert</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="btn btn-primary">Избери</a>
+            </div>
+        </div>
+    </div>
+</div>

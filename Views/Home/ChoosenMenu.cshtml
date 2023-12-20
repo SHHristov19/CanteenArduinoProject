@@ -1,0 +1,27 @@
+﻿@model CanteenArduinoProject.Data.Menu
+
+<div class="card text-center">
+    <div class="card-body">
+        <h5 class="card-title">Вашето меню за @Model.Day (@DateTime.Now.ToString("yyyy-MM-dd")) е:</h5>
+    </div>
+    <div class="card-header">
+        Предястие
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">@Model.Appetizer</li>
+    </ul>
+    <br />
+    <div class="card-header">
+        Основно
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">@Model.Main</li>
+    </ul>
+    <br />
+    <div class="card-header">
+        Десерт
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">@Model.Dessert</li>
+    </ul> 
+</div> 
