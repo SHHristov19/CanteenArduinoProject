@@ -101,13 +101,22 @@ namespace CanteenArduinoProject.Controllers
 
         public IActionResult Menu(int day)
         {
-            return View();
+            string dayOfWeek = null;
+            switch (day)
+            {
+                case 1: dayOfWeek = "Понеделник"; break;
+                case 2: dayOfWeek = "Вторник"; break;
+                case 3: dayOfWeek = "Сряда"; break;
+                case 4: dayOfWeek = "Четвъртък"; break;
+                case 5: dayOfWeek = "Петък"; break;
+            } 
+            return View(_dataService.GetMenuByDay(dayOfWeek));
         }
 
         [HttpPost]
         public IActionResult ChooseDay(int day)
         {
-            return RedirectToAction("Menu", day);
+            return RedirectToAction("Menu", new { day = day });
         }
 
         public IActionResult ChoosenMenu(string uid)

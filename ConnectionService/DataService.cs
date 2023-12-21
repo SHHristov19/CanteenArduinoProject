@@ -107,5 +107,10 @@ namespace CanteenArduinoProject.ConnectionService
                 .FirstOrDefault();
 
         }
+
+        public List<Menu?> GetMenuByDay(string dayOfWeek)
+        {
+            return _context.Menus.Where(x => x.Day == dayOfWeek).ToList();
+        }
     }
 }
