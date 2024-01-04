@@ -1,70 +1,72 @@
-﻿
-@model List<CanteenArduinoProject.Data.Menu>
+﻿@model CanteenArduinoProject.Models.MenuModel
 
 <br />
 <br />
 <br />
 <br />
 <br />
+@using (Html.BeginForm("MenuChoise", "Home", FormMethod.Post))
+{  
 <div class="row">
     <div class="col-sm-6">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Меню 1</h5>
+                <h5 class="card-title">Меню 1 за @Model.dateOfTheDay</h5>
              </div>
                 <div class="card-header">
                     Предястие
                 </div>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item">@Model[0].Appetizer</li>
+                  <li class="list-group-item">@Model.menuForTheDay[0].Appetizer</li>
                 </ul>
                 <br />
                 <div class="card-header">
                     Основно
                 </div>
                 <ul class="list-group list-group-flush">
-                <li class="list-group-item">@Model[0].Main</li>
+                <li class="list-group-item">@Model.menuForTheDay[0].Main</li>
                 </ul>
                 <br />
                 <div class="card-header">
                     Десерт
                 </div>
                 <ul class="list-group list-group-flush">
-                <li class="list-group-item">@Model[0].Dessert</li>
+                <li class="list-group-item">@Model.menuForTheDay[0].Dessert</li>
                 </ul>
-                <div class="card-body">
-                <a href="#" class="btn btn-primary">Избери</a>
+                <div class="card-body"> 
+                <button type="submit" class="btn btn-outline-primary" name="day" value="0">Избери</button>
             </div>
         </div>
     </div>
     <div class="col-sm-6">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Меню 2</h5>
+                <h5 class="card-title">Меню 2 за @Model.dateOfTheDay</h5>
             </div>
             <div class="card-header">
                 Предястие
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">@Model[1].Appetizer</li>
+                <li class="list-group-item">@Model.menuForTheDay[1].Appetizer</li>
             </ul>
             <br />
             <div class="card-header">
                 Основно
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">@Model[1].Main</li>
+                <li class="list-group-item">@Model.menuForTheDay[1].Main</li>
             </ul>
             <br />
             <div class="card-header">
                 Десерт
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">@Model[1].Dessert</li>
+                <li class="list-group-item">@Model.menuForTheDay[1].Dessert</li>
             </ul>
-            <div class="card-body">
-                <a href="#" class="btn btn-primary">Избери</a>
+            <div class="card-body"> 
+                <button type="submit" class="btn btn-outline-primary" name="day" value="1">Избери</button>
             </div>
         </div>
     </div>
 </div>
+}

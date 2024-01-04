@@ -3,6 +3,7 @@ using CanteenArduinoProject.Data;
 using CanteenArduinoProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace CanteenArduinoProject.Controllers
 {
@@ -98,7 +99,7 @@ namespace CanteenArduinoProject.Controllers
              
             return RedirectToAction("WaitingCreating", user);
         }
-
+         
         public IActionResult Menu(int day)
         {
             string dayOfWeek = null;
@@ -109,9 +110,17 @@ namespace CanteenArduinoProject.Controllers
                 case 3: dayOfWeek = "Сряда"; break;
                 case 4: dayOfWeek = "Четвъртък"; break;
                 case 5: dayOfWeek = "Петък"; break;
-            } 
-            return View(_dataService.GetMenuByDay(dayOfWeek));
+            }
+             
+            return View(new MenuModel() { menuForTheDay = _dataService.GetMenuByDay(dayOfWeek), dayOfTheWeek = GetDayOfTheWeek(), dateOfTheDay = GetDayOfTheWeek()[dayOfWeek]});
         }
+
+        [HttpPost]
+        public IActionResult MenuChoise(int menu)
+        {
+            return RedirectToAction("Menu", new { day = 1 });
+        }
+
 
         [HttpPost]
         public IActionResult ChooseDay(int day)
@@ -131,5 +140,34 @@ namespace CanteenArduinoProject.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public Dictionary<string, string> GetDayOfTheWeek()
+        {
+            // Get the current date
+            DateTime today = DateTime.Now;
+
+            if (today.DayOfWeek == DayOfWeek.Saturday || today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                today = today.AddDays(2);
+            }
+
+            // Find the start date (Monday) of the current week
+            DateTime startDate = today.AddDays(-(int)today.DayOfWeek + (int)DayOfWeek.Monday);
+
+            // Create a dictionary to store pairs of day and date
+            Dictionary<string, string> dayDatePairs = new Dictionary<string, string>();
+
+            // Print the dates for Monday to Friday of the current week
+            Console.WriteLine("Dates for Monday to Friday of the current week:");
+
+            for (int i = 0; i < 5; i++)
+            {
+                DateTime currentDate = startDate.AddDays(i);
+                string dayOfWeek = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(currentDate.ToString("dddd", new CultureInfo("bg-BG")));
+                dayDatePairs.Add(dayOfWeek, currentDate.ToString("yyyy-MM-dd"));
+            }
+
+            return dayDatePairs;
+        } 
     } 
 }
